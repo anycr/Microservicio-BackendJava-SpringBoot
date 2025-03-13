@@ -77,6 +77,9 @@ public class Task {
 
     public void setStatus(TaskStatus status) {
         this.status = status;
+        if (status == TaskStatus.COMPLETADA) {
+            this.completed = true;
+        }
     }
 
     public LocalDateTime getDueDate() {
@@ -94,4 +97,5 @@ public class Task {
     public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
     }
+
 }
