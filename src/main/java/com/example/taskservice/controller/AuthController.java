@@ -2,14 +2,17 @@ package com.example.taskservice.controller;
 
 import com.example.taskservice.model.User;  // Importar la clase User
 import com.example.taskservice.security.JwtUtil;
-import com.example.taskservice.service.UserService;  // Importar la clase UserService
+import com.example.taskservice.service.UserService;
+import org.springframework.http.HttpStatus; // Importa HttpStatus
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder; //Para el 201
 
+import java.net.URI;
 import java.util.Map;
 
 @RestController
@@ -32,8 +35,23 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        return ResponseEntity.ok(userService.saveUser(user));
+    public ResponseEntity<?> register(@RequestBody User user) { // Usa ResponseEntity<?>
+        User registeredUser = userService.saveUser(user);
+
+        // Construye la URI del nuevo recurso (buena práctica para 201 Created)
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(registeredUser.getId())
+            .toUri();
+
+        // Opción 1: Solo el ID
+        // return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("id", registeredUser.getId()));
+
+        // Opción 2: ID y username (más informativo)
+          return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("id", registeredUser.getId(), "username", registeredUser.getUsername()));
+
+        //Con la URI
+        //return ResponseEntity.created(location).build();
     }
 
     @PostMapping("/login")
