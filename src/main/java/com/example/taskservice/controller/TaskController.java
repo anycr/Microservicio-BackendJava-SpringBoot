@@ -5,6 +5,7 @@ import com.example.taskservice.model.TaskStatus;
 import com.example.taskservice.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tasks")
+@PreAuthorize("hasAuthority('USER')") // Solo usuarios autenticados pueden acceder
 public class TaskController {
 
     private  TaskService taskService;
