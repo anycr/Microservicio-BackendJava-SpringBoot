@@ -1,17 +1,18 @@
-Gestión de Tareas con Spring Boot:
+# Gestión de Tareas con Spring Boot:
 Este microservicio de gestión de tareas con Spring Boot y PostgreSQL proporciona una API REST funcional que permite manejar tareas fácilmente. Puedes extenderlo con autenticación, mensajería y más.
 
-📌 ️ Tecnologías Utilizadas:
+## 📌 ️ Tecnologías Utilizadas:
+```
 Java 21
 Spring Boot 3
 Spring Data JPA (para la interacción con PostgreSQL)
 Spring Web (para la API REST)
 Docker (para contenerizar la aplicación y la base de datos)
 JWT  para autenticación
+```
 
-``
-📌 Estructura del Proyecto:
-
+## 📌 Estructura del Proyecto:
+```
 📂 task-service
 ┣ 📂 src/main/java/com/example/taskservice
 ┃ ┣ 📂 controller (Controladores)
@@ -39,19 +40,19 @@ JWT  para autenticación
 ┣ 📄 Dockerfile
 ┣ 📄 docker-compose.yml
 ┣ 📄 pom.xml
-``
+```
 
-Funcionalidades del Microservicio
-📌 Endpoints principales (REST API)
-
-Método	   Endpoint					    Descripción
-POST	/auth/register				Registrar un usuario en la base de datos
-POST	/auth/login					Iniciar sesión para obtener el token JWT
-POST	/api/tasks/					Crear una nueva tarea
-POST	/api/tasks/{id}/assign		Asignar una tarea a un usuario
-GET		/api/tasks/					Obtener todas las tareas
-GET		/api/tasks/{id}				Obtener una tarea por ID
-GET		/api/tasks/status/{status}	Consultar tareas por Status
-PUT		/api/tasks/{id}				Actualizar una tarea
-DELETE	/api/tasks/{id}				Eliminar una tarea
-
+## Funcionalidades del Microservicio
+## 📌 Endpoints principales (REST API)
+```
+Método	 Endpoint		      Descripción
+POST	/auth/register	              Registrar un usuario en la base de datos
+POST	/auth/login		      Iniciar sesión para obtener el token JWT
+POST	/api/tasks/		      Crear una nueva tarea
+POST	/api/tasks/{id}/assign	      Asignar una tarea a un usuario
+GET	/api/tasks/		      Obtener todas las tareas
+GET	/api/tasks/{id}	              Obtener una tarea por ID
+GET	/api/tasks/status/{status}    Consultar tareas por Status
+PUT	/api/tasks/{id}	              Actualizar una tarea
+DELETE	/api/tasks/{id}		      Eliminar una tarea
+```
