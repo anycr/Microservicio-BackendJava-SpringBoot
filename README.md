@@ -1,7 +1,7 @@
 # Gestión de Tareas con Spring Boot:
 Este microservicio de gestión de tareas con Spring Boot y PostgreSQL proporciona una API REST funcional que permite manejar tareas fácilmente. Puedes extenderlo con autenticación, mensajería y más.
 
-## 📌 ️ Tecnologías Utilizadas:
+### 📌 ️ Tecnologías Utilizadas:
 ```
 Java 21
 Spring Boot 3
@@ -11,7 +11,7 @@ Docker (para contenerizar la aplicación y la base de datos)
 JWT  para autenticación
 ```
 
-## 📌 Estructura del Proyecto:
+### 📌 Estructura del Proyecto:
 ```
 📂 task-service
 ┣ 📂 src/main/java/com/example/taskservice
@@ -43,7 +43,7 @@ JWT  para autenticación
 ```
 
 ## Funcionalidades del Microservicio
-## 📌 Endpoints principales (REST API)
+### 📌 Endpoints principales (REST API)
 ```
 Método	 Endpoint		      Descripción
 POST	/auth/register	              Registrar un usuario en la base de datos
@@ -56,3 +56,16 @@ GET	/api/tasks/status/{status}    Consultar tareas por Status
 PUT	/api/tasks/{id}	              Actualizar una tarea
 DELETE	/api/tasks/{id}		      Eliminar una tarea
 ```
+### 📌 Modelo de Datos (Ejemplo en JSON)
+Crear tarea
+```
+{
+  "title": "Tarea de prueba",
+  "description": "Descripción de la tarea de prueba",
+  "status": "PENDIENTE",
+  "assignedTo": "user_123"
+}
+```
+## Desplegar con Docker
+### 📌 Comandos para ejecutar
+    docker-compose up --build
