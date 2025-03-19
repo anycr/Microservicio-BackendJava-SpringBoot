@@ -15,6 +15,8 @@ JWT  para autenticación
 ```
 📂 task-service
 ┣ 📂 src/main/java/com/example/taskservice
+┃ ┣ 📂 config (Configuraciones generales)
+┃ ┃ ┗ CorsConfig.java (Configuración de CORS)
 ┃ ┣ 📂 controller (Controladores)
 ┃ ┃ ┣ AuthController.java (Controlador para sutenticación)
 ┃ ┃ ┗ TaskController.java (Controlador REST)
