@@ -10,8 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter; // ¡IMPORTANTE!
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 	
 	private final JwtAuthenticationFilter jwtAuthenticationFilter; // Inyecta el filtro
@@ -23,10 +25,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Desactivar CSRF para pruebas
+		        .cors() // Activa CORS
+		        .and()
+        		.csrf(csrf -> csrf.disable()) // Desactivar CSRF para pruebas
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/register", "/auth/login").permitAll() // Permitir acceso sin autenticación
-                        .anyRequest().authenticated()
+                        .requestMatchers("/api/tasks/**").authenticated() // Protege rutas de tareas
+                        .requestMatchers("/**").permitAll() // 🔹 Permite solicitudes generales
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // ¡AGREGA EL FILTRO!
