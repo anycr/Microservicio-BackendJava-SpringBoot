@@ -22,18 +22,20 @@ public class Task {
 
     @Enumerated(EnumType.STRING)
     private TaskStatus status;
-
+    
+    private LocalDateTime startDate;
     private LocalDateTime dueDate;
     private String assignedTo;
 
     public Task() {}
 
-    public Task(Long id, String title, String description, boolean completed, TaskStatus status, LocalDateTime dueDate, String assignedTo) {
+    public Task(Long id, String title, String description, boolean completed, TaskStatus status, LocalDateTime startDate, LocalDateTime dueDate, String assignedTo) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.completed = completed;
         this.status = status;
+        this.startDate = startDate;
         this.dueDate = dueDate;
         this.assignedTo = assignedTo;
     }
@@ -82,6 +84,14 @@ public class Task {
         }
     }
 
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+    
     public LocalDateTime getDueDate() {
         return dueDate;
     }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,25 +34,48 @@ public class TaskService {
         if (task.getStatus() != TaskStatus.COMPLETADA) {
             task.setCompleted(false);
         }
-        task.setDueDate(LocalDateTime.now());
+        task.setStartDate(LocalDateTime.now());
 
         return taskRepository.save(task);
     }
 
     public Task updateTask(Long id, Task updatedTask) {
-        return taskRepository.findById(id).map(task -> {
-            task.setTitle(updatedTask.getTitle());
-            task.setDescription(updatedTask.getDescription());
-            task.setStatus(updatedTask.getStatus());
+        return taskRepository.findById(id)
+                .map(task -> {
+                    // ¡Verifica el estado DENTRO del map!
+                    if (task.getStatus() == TaskStatus.COMPLETADA || task.getStatus() == TaskStatus.CANCELADA) {
+                        throw new IllegalStateException("No se puede actualizar una tarea COMPLETADA o CANCELADA.");
+                    }
+	                 // Validar startDate
+                    if (updatedTask.getStartDate() != null && !Objects.equals(updatedTask.getStartDate(), task.getStartDate())) {
+                        throw new IllegalStateException("No se puede modificar el campo startDate.");
+                    }
+                    //Validar completed
+                    if (updatedTask.isCompleted() && !Objects.equals(updatedTask.isCompleted(),task.isCompleted() )) {
+                        throw new IllegalStateException("No se puede modificar el campo completed.");
+                    }
+                    // Actualiza solo los campos NO NULOS:
+                    if (updatedTask.getTitle() != null) {
+                        task.setTitle(updatedTask.getTitle());
+                    }
+                    if (updatedTask.getDescription() != null) {
+                        task.setDescription(updatedTask.getDescription());
+                    }
+                    if (updatedTask.getStatus() != null) {
+                        task.setStatus(updatedTask.getStatus());
+                    }
+                    if (updatedTask.getDueDate() != null) {
+                        task.setDueDate(updatedTask.getDueDate());
+                    }
+                    if (updatedTask.getAssignedTo() != null) {
+                        task.setAssignedTo(updatedTask.getAssignedTo());
+                    }
 
-            // Si la tarea se marca como COMPLETADA, aseguramos que completed sea true
-            if (updatedTask.getStatus() == TaskStatus.COMPLETADA) {
-                task.setCompleted(true);
-            }
-
-            return taskRepository.save(task);
-        }).orElse(null);
+                    return taskRepository.save(task); // Guarda los cambios
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Tarea no encontrada con id: " + id)); // Lanza excepción si no se encuentra
     }
+
     
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);

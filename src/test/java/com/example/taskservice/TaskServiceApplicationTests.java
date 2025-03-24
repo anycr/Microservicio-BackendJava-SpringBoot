@@ -23,6 +23,7 @@ class TaskServiceApplicationTests {
     task.setDescription("Descripción");
     task.setStatus(TaskStatus.PENDIENTE);
     task.setCompleted(false);
+    task.setStartDate(LocalDateTime.now());
     task.setDueDate(LocalDateTime.now());
     task.setAssignedTo("correo");
 

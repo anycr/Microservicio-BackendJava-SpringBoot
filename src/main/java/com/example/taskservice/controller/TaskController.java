@@ -59,25 +59,19 @@ public class TaskController {
          return updatedTask != null ? ResponseEntity.ok(updatedTask) : ResponseEntity.notFound().build();
      }
      
+
      @PutMapping("/{id}")
-     public ResponseEntity<String> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
-         Optional<Task> existingTask = taskService.getTaskById(id);
-
-         if (existingTask.isEmpty()) {
-             return new ResponseEntity<>("Tarea no encontrada", HttpStatus.NOT_FOUND);
+     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) { //Devuelve un objeto Task, no String
+         try {
+             Task updated = taskService.updateTask(id, updatedTask);
+             return new ResponseEntity<>(updated, HttpStatus.OK); //Devuelve la tarea
+         } catch (IllegalArgumentException e) {
+             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); //Devuelve 404 si no la encuentra
+         } catch (IllegalStateException e) {
+             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); //Devuelve 400 si no se puede modificar.
          }
-
-         Task task = existingTask.get();
-         
-         // Validar si la tarea ya está COMPLETADA o CANCELADA
-         if (task.getStatus() == TaskStatus.COMPLETADA || task.getStatus() == TaskStatus.CANCELADA) {
-             return new ResponseEntity<>("No se puede actualizar una tarea COMPLETADA o CANCELADA", HttpStatus.BAD_REQUEST);
-         }
-
-         // Si no está completada o cancelada, proceder con la actualización
-         Task updated = taskService.updateTask(id, updatedTask);
-         return new ResponseEntity<>(updated.toString(), HttpStatus.OK);
      }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id){
