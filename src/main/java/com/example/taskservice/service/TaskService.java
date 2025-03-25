@@ -42,19 +42,23 @@ public class TaskService {
     public Task updateTask(Long id, Task updatedTask) {
         return taskRepository.findById(id)
                 .map(task -> {
-                    // ¡Verifica el estado DENTRO del map!
+                    // Si la tarea ya está COMPLETADA o CANCELADA, no se puede modificar
                     if (task.getStatus() == TaskStatus.COMPLETADA || task.getStatus() == TaskStatus.CANCELADA) {
                         throw new IllegalStateException("No se puede actualizar una tarea COMPLETADA o CANCELADA.");
                     }
-	                 // Validar startDate
-                    if (updatedTask.getStartDate() != null && !Objects.equals(updatedTask.getStartDate(), task.getStartDate())) {
+
+                    // Validar que no se modifique el campo startDate
+                    if (updatedTask.getStartDate() != null && 
+                        !Objects.equals(updatedTask.getStartDate(), task.getStartDate())) {
                         throw new IllegalStateException("No se puede modificar el campo startDate.");
                     }
-                    //Validar completed
-                    if (updatedTask.isCompleted() && !Objects.equals(updatedTask.isCompleted(),task.isCompleted() )) {
-                        throw new IllegalStateException("No se puede modificar el campo completed.");
+
+                    // Validar que no se intente modificar completed manualmente
+                    if (task.getStatus() != TaskStatus.COMPLETADA && task.isCompleted() ) {
+                        throw new IllegalStateException("No se puede modificar el campo completed manualmente.");
                     }
-                    // Actualiza solo los campos NO NULOS:
+
+                    // Actualiza solo los campos NO NULOS
                     if (updatedTask.getTitle() != null) {
                         task.setTitle(updatedTask.getTitle());
                     }
@@ -63,6 +67,11 @@ public class TaskService {
                     }
                     if (updatedTask.getStatus() != null) {
                         task.setStatus(updatedTask.getStatus());
+
+                        // Si el estado es COMPLETADA, marcar completed = true automáticamente
+                        if (updatedTask.getStatus() == TaskStatus.COMPLETADA) {
+                            task.setCompleted(true);
+                        }
                     }
                     if (updatedTask.getDueDate() != null) {
                         task.setDueDate(updatedTask.getDueDate());
@@ -73,7 +82,7 @@ public class TaskService {
 
                     return taskRepository.save(task); // Guarda los cambios
                 })
-                .orElseThrow(() -> new IllegalArgumentException("Tarea no encontrada con id: " + id)); // Lanza excepción si no se encuentra
+                .orElseThrow(() -> new IllegalArgumentException("Tarea no encontrada con id: " + id));
     }
 
     

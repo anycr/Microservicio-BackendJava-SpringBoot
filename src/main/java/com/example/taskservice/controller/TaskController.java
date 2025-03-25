@@ -61,14 +61,14 @@ public class TaskController {
      
 
      @PutMapping("/{id}")
-     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) { //Devuelve un objeto Task, no String
+     public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
          try {
              Task updated = taskService.updateTask(id, updatedTask);
-             return new ResponseEntity<>(updated, HttpStatus.OK); //Devuelve la tarea
+             return new ResponseEntity<>(updated, HttpStatus.OK); // Devuelve la tarea actualizada
          } catch (IllegalArgumentException e) {
-             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); //Devuelve 404 si no la encuentra
+             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // 404 si no se encuentra
          } catch (IllegalStateException e) {
-             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST); //Devuelve 400 si no se puede modificar.
+             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // 400 si no se puede modificar
          }
      }
 
