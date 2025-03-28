@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -47,11 +48,25 @@ public class TaskController {
         }
     }
 
-     @PostMapping
-     public ResponseEntity<Task> createTask(@RequestBody Task task){
-        Task newTask = taskService.createTask(task);
-        return new ResponseEntity<>(newTask, HttpStatus.CREATED);
-     }
+    @PostMapping
+    public ResponseEntity<?> createTask(@RequestBody Task task) { // Cambia a ResponseEntity<?>
+        System.out.println("Datos recibidos en createTask (backend): " + task);
+        try {
+            Task newTask = taskService.createTask(task);
+            System.out.println("Tarea creada: "+ newTask);
+            return new ResponseEntity<>(newTask, HttpStatus.CREATED); // 201 Created con la tarea
+        } catch (IllegalStateException e) { // Captura la excepción de validación (u otras)
+            // Devuelve el mensaje específico de la excepción
+            Map<String, String> errorResponse = Map.of("message", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST); // 400 Bad Request
+        } catch (Exception e) {
+            // Manejo genérico para otros errores inesperados
+            System.err.println("Error interno al crear la tarea: " + e.getMessage());
+            e.printStackTrace();
+            Map<String, String> errorResponse = Map.of("message", "Error interno del servidor al crear la tarea.");
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error
+        }
+    }
      
      @PostMapping("/{id}/assign")
      public ResponseEntity<Task> assignTask(@PathVariable Long id, @RequestParam String username) {
@@ -61,14 +76,24 @@ public class TaskController {
      
 
      @PutMapping("/{id}")
-     public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
+     public ResponseEntity<?> updateTask(@PathVariable Long id, @RequestBody Task updatedTask) { // Cambia el tipo de retorno a ResponseEntity<?>
          try {
              Task updated = taskService.updateTask(id, updatedTask);
              return new ResponseEntity<>(updated, HttpStatus.OK); // Devuelve la tarea actualizada
          } catch (IllegalArgumentException e) {
-             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND); // 404 si no se encuentra
+             // Maneja 'Tarea no encontrada'
+             Map<String, String> errorResponse = Map.of("message", e.getMessage()); // Crea un mapa para el mensaje
+             return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND); // Devuelve 404 con el mensaje
          } catch (IllegalStateException e) {
-             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST); // 400 si no se puede modificar
+             // Maneja errores de validación (como fecha inválida o estado inválido)
+             Map<String, String> errorResponse = Map.of("message", e.getMessage()); // ¡Incluye el mensaje de la excepción!
+             return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST); // Devuelve 400 con el mensaje
+         } catch (Exception e) {
+             // Manejo genérico para otros errores inesperados
+             System.err.println("Error interno al actualizar la tarea: " + e.getMessage());
+             e.printStackTrace();
+             Map<String, String> errorResponse = Map.of("message", "Error interno del servidor al actualizar la tarea.");
+             return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR); // Devuelve 500
          }
      }
 

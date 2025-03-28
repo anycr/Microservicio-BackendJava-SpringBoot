@@ -6,7 +6,9 @@ import com.example.taskservice.repository.TaskRepository;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Scheduled;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -30,11 +32,19 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {
-        // Ensure 'completed' is false if not explicitly set to COMPLETADA
+        
+        task.setStartDate(LocalDateTime.now());
+        
+        // Validar que dueDate no sea antes que startDate
+        if (task.getDueDate() != null && task.getStartDate() != null &&
+                task.getDueDate().isBefore(task.getStartDate())) { // Compara LocalDate/LocalDateTime
+                throw new IllegalStateException("La fecha de vencimiento no puede ser anterior a la fecha de inicio.");
+            }
+        
+        // Si no es COMPLETADA, asegurar que completed sea false
         if (task.getStatus() != TaskStatus.COMPLETADA) {
             task.setCompleted(false);
         }
-        task.setStartDate(LocalDateTime.now());
 
         return taskRepository.save(task);
     }
@@ -57,6 +67,12 @@ public class TaskService {
                     if (task.getStatus() != TaskStatus.COMPLETADA && task.isCompleted() ) {
                         throw new IllegalStateException("No se puede modificar el campo completed manualmente.");
                     }
+                    
+                    // Validar que dueDate no sea antes que startDate
+                    if (updatedTask.getDueDate() != null && 
+                            updatedTask.getDueDate().isBefore(task.getStartDate())) {
+                            throw new IllegalArgumentException("La fecha de vencimiento no puede ser anterior a la fecha de inicio.");
+                        }
 
                     // Actualiza solo los campos NO NULOS
                     if (updatedTask.getTitle() != null) {
@@ -103,5 +119,21 @@ public class TaskService {
         return taskRepository.findByStatus(status);
     }
 
+    // Verifica y cancela tareas cada hora
+    @Scheduled(cron = "0 0 * * * *")
+    public void checkForExpiredTasks() {
+        List<Task> tasks = taskRepository.findAll();
+
+        tasks.forEach(task -> {
+            if (task.getDueDate() != null && 
+                task.getDueDate().toLocalDate().isBefore(LocalDateTime.now().toLocalDate()) && 
+                task.getStatus() != TaskStatus.CANCELADA) {
+
+                task.setStatus(TaskStatus.CANCELADA);
+                taskRepository.save(task);
+                System.out.println("\u23F0 Tarea " + task.getId() + " fue cancelada autom\u00e1ticamente.");
+            }
+        });
+    }
 
 }

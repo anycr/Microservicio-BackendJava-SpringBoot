@@ -23,8 +23,10 @@ class TaskServiceApplicationTests {
     task.setDescription("Descripción");
     task.setStatus(TaskStatus.PENDIENTE);
     task.setCompleted(false);
-    task.setStartDate(LocalDateTime.now());
-    task.setDueDate(LocalDateTime.now());
+    LocalDateTime startDate = LocalDateTime.now();
+    task.setStartDate(startDate);
+    LocalDateTime dueDate = startDate.plusDays(2);
+    task.setDueDate(dueDate); // Establece la fecha de vencimiento calculada
     task.setAssignedTo("correo");
 
     Task savedTask = taskService.createTask(task); // Guarda la tarea
