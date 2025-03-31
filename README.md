@@ -66,6 +66,7 @@ Crear tarea
   "title": "Tarea de prueba",
   "description": "Descripción de la tarea de prueba",
   "status": "PENDIENTE",
+  "dueDate": "2025-03-28T12:30:00",
   "assignedTo": "user_123"
 }
 ```
