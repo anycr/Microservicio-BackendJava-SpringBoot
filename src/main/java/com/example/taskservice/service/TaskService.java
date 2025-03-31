@@ -6,6 +6,7 @@ import com.example.taskservice.repository.TaskRepository;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalDate;
@@ -106,17 +107,31 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
     
+    @Transactional
     public Task assignTaskToUser(Long taskId, String username) {
         return taskRepository.findById(taskId)
             .map(task -> {
-                task.setAssignedTo(username); // Usar el nombre de usuario en String
+            	 // --- ¡VALIDACIÓN DE ESTADO AÑADIDA! ---
+                if (task.getStatus() == TaskStatus.COMPLETADA || task.getStatus() == TaskStatus.CANCELADA) {
+                    throw new IllegalStateException("No se puede asignar una tarea COMPLETADA o CANCELADA."); // Lanza excepción si no es válido
+                }
+                // --- FIN VALIDACIÓN ---
+
+                // Si el estado es válido, procede a asignar
+                task.setAssignedTo(username);
+                System.out.println("Asignando tarea " + taskId + " a usuario: " + username); // Log
                 return taskRepository.save(task);
             })
-            .orElse(null);
+            .orElseThrow(() -> new IllegalArgumentException("Tarea no encontrada con id: " + taskId)); // Lanza si no encuentra la tarea
     }
     
     public List<Task> getTasksByStatus(TaskStatus status) {
         return taskRepository.findByStatus(status);
+    }
+    
+    public List<Task> getTasksByAssignedUser(String username) {
+        System.out.println("Buscando tareas asignadas a: " + username); // Log
+        return taskRepository.findByAssignedToIgnoreCase(username);
     }
 
     // Verifica y cancela tareas cada hora

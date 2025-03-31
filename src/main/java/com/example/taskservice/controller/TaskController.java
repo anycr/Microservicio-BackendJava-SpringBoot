@@ -48,6 +48,22 @@ public class TaskController {
         }
     }
 
+    @GetMapping("/assigned/{username}")
+    public ResponseEntity<List<Task>> getTasksByAssignedUser(@PathVariable String username) {
+        try {
+            List<Task> tasks = taskService.getTasksByAssignedUser(username);
+            if (tasks.isEmpty()) {
+                // Puedes devolver 204 No Content si prefieres, o 200 OK con lista vacía
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(tasks);
+        } catch (Exception e) {
+            System.err.println("Error al buscar tareas por usuario asignado: " + e.getMessage());
+            // Considera devolver un error más específico si es necesario
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
     @PostMapping
     public ResponseEntity<?> createTask(@RequestBody Task task) { // Cambia a ResponseEntity<?>
         System.out.println("Datos recibidos en createTask (backend): " + task);
@@ -69,10 +85,29 @@ public class TaskController {
     }
      
      @PostMapping("/{id}/assign")
-     public ResponseEntity<Task> assignTask(@PathVariable Long id, @RequestParam String username) {
-         Task updatedTask = taskService.assignTaskToUser(id, username);
-         return updatedTask != null ? ResponseEntity.ok(updatedTask) : ResponseEntity.notFound().build();
-     }
+     public ResponseEntity<?> assignTask(@PathVariable Long id, @RequestParam String username) { // Cambia a ResponseEntity<?>
+    	    try {
+    	        System.out.println("Recibida solicitud para asignar tarea ID: " + id + " a usuario: " + username); // Log
+    	        Task updatedTask = taskService.assignTaskToUser(id, username);
+    	        return ResponseEntity.ok(updatedTask); // 200 OK con la tarea actualizada
+    	    } catch (IllegalArgumentException e) {
+    	        // Maneja 'Tarea no encontrada'
+    	        System.err.println("Error al asignar - Tarea no encontrada: " + e.getMessage()); // Log de error
+    	        Map<String, String> errorResponse = Map.of("message", e.getMessage());
+    	        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND); // 404
+    	    } catch (IllegalStateException e) {
+    	        // Maneja errores de validación (estado no válido)
+    	        System.err.println("Error al asignar - Estado inválido: " + e.getMessage()); // Log de error
+    	        Map<String, String> errorResponse = Map.of("message", e.getMessage());
+    	        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST); // 400 con el mensaje específico
+    	    } catch (Exception e) {
+    	        // Manejo genérico
+    	        System.err.println("Error interno al asignar tarea: " + e.getMessage());
+    	        e.printStackTrace();
+    	        Map<String, String> errorResponse = Map.of("message", "Error interno del servidor al asignar la tarea.");
+    	        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR); // 500
+    	    }
+    	}
      
 
      @PutMapping("/{id}")

@@ -12,6 +12,11 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
 	List<Task> findAllByOrderByIdAsc(); // Método para ordenar por ID ascendente
 	List<Task> findByStatus(TaskStatus status);
+	
+	// --- NUEVO MÉTODO ---
+    // Busca tareas ignorando mayúsculas/minúsculas en assignedTo
+    List<Task> findByAssignedToIgnoreCase(String username);
+    // --------------------
     // (Opcional) Puedes añadir métodos personalizados aquí, si los necesitas.
     // Spring Data JPA generará la implementación automáticamente.
 }

@@ -54,6 +54,7 @@ POST	/api/tasks/		      Crear una nueva tarea
 POST	/api/tasks/{id}/assign	      Asignar una tarea a un usuario
 GET	/api/tasks/		      Obtener todas las tareas
 GET	/api/tasks/{id}	              Obtener una tarea por ID
+GET	/api/tasks/assigned/{user}	              Obtener las tareas por usuarios asignados
 GET	/api/tasks/status/{status}    Consultar tareas por Status
 PUT	/api/tasks/{id}	              Actualizar una tarea
 DELETE	/api/tasks/{id}		      Eliminar una tarea
