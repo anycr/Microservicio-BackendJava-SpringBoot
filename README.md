@@ -71,5 +71,22 @@ Crear tarea
 }
 ```
 ## Desplegar con Docker
-### 📌 Comandos para ejecutar
-    docker-compose up --build
+### 📌 Comandos para ejecutar:
+✅ 1- Descargar repositorio
+✅ 2- Abre la terminal y ve a la carpeta del proyecto:
+```
+cd /ruta/del/proyecto
+```
+✅ 3- Limpien and construye el projecto (Maven)
+```
+mvn clean install
+```
+✅ 4- Construye la imagen Docker
+```
+docker-compose up --build
+```
+✅ 5- Inicie el contenedor:
+```
+docker-compose up --build #Iniciar los contenedores
+docker-compose up -d --build #Segundo plano
+```
