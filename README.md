@@ -9,6 +9,7 @@ Spring Data JPA (para la interacción con PostgreSQL)
 Spring Web (para la API REST)
 Docker (para contenerizar la aplicación y la base de datos)
 JWT  para autenticación
+Maven 3.6.3
 ```
 
 ### 📌 Estructura del Proyecto:
@@ -71,5 +72,32 @@ Crear tarea
 }
 ```
 ## Desplegar con Docker
-### 📌 Comandos para ejecutar
-    docker-compose up --build
+### 📌 Comandos para ejecutar:
+✅ 1- Descargar repositorio
+```
+Usa el comando cd para moverte a la carpeta en tu computadora donde quieres que se descargue el repositorio:
+cd C:\Users\tu_usuario\Documents\Proyectos
+# o en macOS/Linux:
+cd ~/Documents/Proyectos
+
+Ejecuta el comando git clone: Pega la URL que copiaste después del comando:
+git clone https://github.com/nombre-usuario/nombre-repositorio.git
+
+```
+✅ 2- Abre la terminal y ve a la carpeta del proyecto:
+```
+cd /ruta/del/proyecto
+```
+✅ 3- Limpien and construye el projecto (Maven)
+```
+mvn clean install
+```
+✅ 4- Construye la imagen Docker
+```
+docker-compose up --build
+```
+✅ 5- Inicie el contenedor:
+```
+docker-compose up --build #Iniciar los contenedores
+docker-compose up -d --build #Segundo plano
+```
