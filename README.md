@@ -75,10 +75,12 @@ Crear tarea
 ### 📌 Comandos para ejecutar:
 ✅ 1- Descargar repositorio
 ```
+Usa el comando cd para moverte a la carpeta en tu computadora donde quieres que se descargue el repositorio:
 cd C:\Users\tu_usuario\Documents\Proyectos
 # o en macOS/Linux:
 cd ~/Documents/Proyectos
-Ejecuta el comando git clone: Pega la URL que copiaste después del comando
+
+Ejecuta el comando git clone: Pega la URL que copiaste después del comando:
 git clone https://github.com/nombre-usuario/nombre-repositorio.git
 
 ```
