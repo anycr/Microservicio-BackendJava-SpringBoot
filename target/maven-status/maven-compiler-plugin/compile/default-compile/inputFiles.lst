@@ -1,0 +1,16 @@
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\security\SecurityConfig.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\service\TaskService.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\security\CustomUserDetailsService.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\controller\TaskController.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\model\TaskStatus.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\TaskServiceApplication.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\model\User.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\controller\AuthController.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\security\JwtAuthenticationFilter.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\repository\TaskRepository.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\utils\KeyGeneratorUtil.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\security\JwtUtil.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\config\CorsConfig.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\model\Task.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\repository\UserRepository.java
+C:\Users\anycr\Documents\workspace-spring-tool-suite-4-4.28.1.RELEASE\Microservicio\task-service\src\main\java\com\example\taskservice\service\UserService.java

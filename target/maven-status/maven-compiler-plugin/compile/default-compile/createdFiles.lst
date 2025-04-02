@@ -1,0 +1,16 @@
+com\example\taskservice\repository\TaskRepository.class
+com\example\taskservice\repository\UserRepository.class
+com\example\taskservice\model\TaskStatus.class
+com\example\taskservice\utils\KeyGeneratorUtil.class
+com\example\taskservice\security\JwtAuthenticationFilter.class
+com\example\taskservice\security\SecurityConfig.class
+com\example\taskservice\TaskServiceApplication.class
+com\example\taskservice\security\CustomUserDetailsService.class
+com\example\taskservice\config\CorsConfig.class
+com\example\taskservice\controller\TaskController.class
+com\example\taskservice\service\UserService.class
+com\example\taskservice\model\User.class
+com\example\taskservice\service\TaskService.class
+com\example\taskservice\controller\AuthController.class
+com\example\taskservice\model\Task.class
+com\example\taskservice\security\JwtUtil.class
