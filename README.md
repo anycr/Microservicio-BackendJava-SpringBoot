@@ -9,6 +9,7 @@ Spring Data JPA (para la interacción con PostgreSQL)
 Spring Web (para la API REST)
 Docker (para contenerizar la aplicación y la base de datos)
 JWT  para autenticación
+Maven 3.6.3
 ```
 
 ### 📌 Estructura del Proyecto:
