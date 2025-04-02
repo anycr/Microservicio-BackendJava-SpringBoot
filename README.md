@@ -74,6 +74,14 @@ Crear tarea
 ## Desplegar con Docker
 ### 📌 Comandos para ejecutar:
 ✅ 1- Descargar repositorio
+```
+cd C:\Users\tu_usuario\Documents\Proyectos
+# o en macOS/Linux:
+cd ~/Documents/Proyectos
+Ejecuta el comando git clone: Pega la URL que copiaste después del comando
+git clone https://github.com/nombre-usuario/nombre-repositorio.git
+
+```
 ✅ 2- Abre la terminal y ve a la carpeta del proyecto:
 ```
 cd /ruta/del/proyecto
