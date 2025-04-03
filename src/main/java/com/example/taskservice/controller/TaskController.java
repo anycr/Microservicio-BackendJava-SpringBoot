@@ -15,7 +15,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/tasks")
 @PreAuthorize("hasAuthority('USER')") // Solo usuarios autenticados pueden acceder
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {
+	    "http://localhost:4200",
+	    "https://anycr.github.io"
+	})
+
 public class TaskController {
 
     private  TaskService taskService;
