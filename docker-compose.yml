@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:12
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_DB: tasksdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: welcome1
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
+  task-service:
+    image: task-service:01
+    container_name: task-service-container
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tasksdb  # Corregido
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: welcome1
+    ports:
+      - "8080:8080"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
