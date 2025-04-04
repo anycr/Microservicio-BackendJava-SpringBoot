@@ -42,7 +42,7 @@ Maven 3.6.3
 ┣ 📄 application.properties
 ┣ 📄 Dockerfile
 ┣ 📄 docker-compose.yml
-┣ 📄 pom.xml
+┗📄 pom.xml
 ```
 
 ## Funcionalidades del Microservicio
@@ -72,6 +72,7 @@ Crear tarea
 }
 ```
 ## Desplegar con Docker
+### 📌Nota: antes de bajar este repositorio es necesario tener instalado: MAVEN 3.6.3, Docker
 ### 📌 Comandos para ejecutar:
 ✅ 1- Descargar repositorio
 
